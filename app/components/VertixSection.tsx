@@ -5,7 +5,7 @@ const imgVertix = "/assets/banner-image.png";
 
 export default function VertixSection() {
   return (
-    <section className="relative w-full overflow-hidden" style={{ height: '1249px' }}>
+    <section className="relative w-full overflow-hidden h-[500px] sm:h-[800px] lg:h-[1249px]">
       {/* Full bleed background image */}
       <img
         src={imgVertix}

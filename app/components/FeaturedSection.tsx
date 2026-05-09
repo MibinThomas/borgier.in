@@ -59,25 +59,25 @@ export default function FeaturedSection() {
   const featuredProducts = [...products, ...products];
 
   return (
-    <section className="w-full bg-[#ebebeb] py-[110px]">
-      <div className="mx-auto w-full max-w-[1920px] px-[88px]">
-        <div className="mb-[72px] flex items-center justify-between">
-          <h2 className="font-brand text-[56px] font-light leading-none tracking-[-0.03em] text-black">
+    <section className="w-full bg-[#ebebeb] py-[60px] lg:py-[110px]">
+      <div className="mx-auto w-full max-w-[1920px] px-6 lg:px-[88px]">
+        <div className="mb-[40px] lg:mb-[72px] flex items-center justify-between">
+          <h2 className="font-brand text-[32px] sm:text-[40px] lg:text-[56px] font-light leading-none tracking-[-0.03em] text-black">
             Featured<span className="text-[#00e300]">.</span>
           </h2>
 
           <button
             type="button"
             aria-label="Filter products"
-            className="flex h-12 w-12 flex-col items-end justify-center gap-[6px]"
+            className="flex h-10 w-10 lg:h-12 lg:w-12 flex-col items-end justify-center gap-[4px] lg:gap-[6px]"
           >
-            <span className="h-[3.2px] w-[21.5px] bg-black" />
-            <span className="h-[3.2px] w-[14px] bg-black" />
-            <span className="h-[3.2px] w-[8.6px] bg-black" />
+            <span className="h-[2.5px] lg:h-[3.2px] w-[18px] lg:w-[21.5px] bg-black" />
+            <span className="h-[2.5px] lg:h-[3.2px] w-[12px] lg:w-[14px] bg-black" />
+            <span className="h-[2.5px] lg:h-[3.2px] w-[7px] lg:w-[8.6px] bg-black" />
           </button>
         </div>
 
-        <div className="grid grid-cols-4 gap-x-[32px] gap-y-[86px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-[24px] lg:gap-x-[32px] gap-y-[40px] lg:gap-y-[86px]">
           {featuredProducts.map((product, index) => (
             <ProductCard
               key={`${product.id}-${index}`}

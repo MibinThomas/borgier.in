@@ -8,6 +8,7 @@ const imgCart = "/assets/cart-icon.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -15,40 +16,83 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Mens', href: '/mens' },
+    { name: 'All Products', href: '/products' },
+  ];
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 h-[100px] transition-all duration-300 ${scrolled ? 'bg-[#e6e7e8]/90 backdrop-blur-md' : 'bg-transparent'}`}>
-      <div className="relative max-w-[1920px] mx-auto h-full w-full">
-        {/* Logo - Exact alignment c. 168px from left, 71px from top (adjusted for nav height) */}
-        <Link href="/" className="absolute left-[168px] top-[71px] -translate-y-1/2">
-          <img src={imgLogo} alt="Borgier" className="h-[49px] w-[154px] object-contain" />
+    <nav className={`fixed top-0 left-0 right-0 z-50 h-[80px] lg:h-[100px] transition-all duration-300 ${scrolled || menuOpen ? 'bg-[#e6e7e8]/90 backdrop-blur-md' : 'bg-transparent'}`}>
+      <div className="relative max-w-[1920px] mx-auto h-full w-full px-6 lg:px-[168px] flex items-center justify-between">
+        
+        {/* Logo */}
+        <Link href="/" className="z-50">
+          <img src={imgLogo} alt="Borgier" className="h-[32px] lg:h-[49px] w-auto object-contain" />
         </Link>
 
-        {/* Navigation Links - Exact pixel alignments from Figma */}
-        <div className="absolute top-[86px] -translate-y-1/2 flex gap-0 items-center">
-          <Link href="/" className="absolute left-[565px] text-black text-[19.1px] font-light leading-[1.02] hover:opacity-70 transition-opacity whitespace-nowrap">
-            Home
-          </Link>
-          <Link href="/mens" className="absolute left-[707px] text-black text-[19.1px] font-light leading-[1.02] hover:opacity-70 transition-opacity whitespace-nowrap">
-            Mens
-          </Link>
-          <Link href="/products" className="absolute left-[845px] text-black text-[19.1px] font-light leading-[1.02] hover:opacity-70 transition-opacity whitespace-nowrap">
-            All Products
-          </Link>
+        {/* Desktop Links */}
+        <div className="hidden lg:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
+          {navLinks.map((link) => (
+            <Link 
+              key={link.name} 
+              href={link.href} 
+              className="text-black text-[19.1px] font-light leading-[1.02] hover:opacity-70 transition-opacity whitespace-nowrap"
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
 
-        {/* Search - Exact alignment 1121px from left */}
-        <div className="absolute left-[1121px] top-[88px] -translate-y-1/2 flex items-center">
-          <input
-            type="text"
-            placeholder="Search"
-            className="text-[#606060] text-[15.82px] font-light leading-[1.02] bg-transparent border-b border-[#606060]/20 pb-0.5 w-[140px] focus:outline-none focus:border-[#606060] transition-colors placeholder-[#606060]"
-          />
+        {/* Desktop Search & Cart */}
+        <div className="hidden lg:flex items-center gap-8">
+          <div className="flex items-center">
+            <input
+              type="text"
+              placeholder="Search"
+              className="text-[#606060] text-[15.82px] font-light leading-[1.02] bg-transparent border-b border-[#606060]/20 pb-0.5 w-[140px] focus:outline-none focus:border-[#606060] transition-colors placeholder-[#606060]"
+            />
+          </div>
+          <button className="hover:opacity-70 transition-opacity">
+            <img src={imgCart} alt="Cart" className="w-[34px] h-[34px] object-contain" />
+          </button>
         </div>
 
-        {/* Cart - Right side alignment */}
-        <button className="absolute left-[1592px] top-[82px] -translate-y-1/2 hover:opacity-70 transition-opacity">
-          <img src={imgCart} alt="Cart" className="w-[34px] h-[34px] object-contain" />
-        </button>
+        {/* Mobile Toggle & Cart */}
+        <div className="flex lg:hidden items-center gap-4">
+          <button className="hover:opacity-70 transition-opacity">
+            <img src={imgCart} alt="Cart" className="w-[28px] h-[28px] object-contain" />
+          </button>
+          <button 
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex flex-col gap-1.5 z-50"
+          >
+            <span className={`h-0.5 w-6 bg-black transition-transform ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`h-0.5 w-6 bg-black transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`h-0.5 w-6 bg-black transition-transform ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <div className={`fixed inset-0 bg-[#e6e7e8] z-40 transition-transform duration-500 flex flex-col items-center justify-center gap-8 lg:hidden ${menuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+          {navLinks.map((link) => (
+            <Link 
+              key={link.name} 
+              href={link.href} 
+              onClick={() => setMenuOpen(false)}
+              className="text-black text-3xl font-light"
+            >
+              {link.name}
+            </Link>
+          ))}
+          <div className="mt-8 px-6 w-full max-w-sm">
+             <input
+              type="text"
+              placeholder="Search products..."
+              className="w-full text-center text-[#606060] text-xl font-light bg-transparent border-b border-[#606060]/20 pb-2 focus:outline-none focus:border-[#606060] transition-colors placeholder-[#606060]"
+            />
+          </div>
+        </div>
       </div>
     </nav>
   );

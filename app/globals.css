@@ -83,6 +83,7 @@ button,
   font-weight: 900;
   letter-spacing: -0.05em;
   line-height: 0.8;
+  font-size: clamp(80px, 10vw, 191.8px);
 }
 
 .bg-glass {
